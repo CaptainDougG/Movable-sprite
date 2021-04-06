@@ -7,10 +7,13 @@ import javax.imageio.ImageIO;
 public class IMGSprite implements DisplayableSprite, MovableSprite {
 
 	private static Image image;	
+	private static Image rightImage;	
 	private double centerX = 0;
 	private double centerY = 0;
 	private double width = 50;
 	private double height = 50;
+	private double velocityX = 0;
+	private double velocityY = 0;
 	private boolean dispose = false;	
 	
 	public IMGSprite() {
@@ -19,6 +22,8 @@ public class IMGSprite implements DisplayableSprite, MovableSprite {
 		if (image == null) {
 			try {
 				image = ImageIO.read(new File("res/IMG/squirrel-icon.png"));
+				rightImage = ImageIO.read(new File("res/IMG/squirrel-icon.png"));
+
 			}
 			catch (IOException e) {
 				System.out.println(e.toString());
@@ -28,44 +33,43 @@ public class IMGSprite implements DisplayableSprite, MovableSprite {
 
 	@Override
 	public void setCenterX(double centerX) {
-		// TODO Auto-generated method stub
-		
+		this.centerX = centerX;
 	}
 
 	@Override
 	public void setCenterY(double centerY) {
-		// TODO Auto-generated method stub
-		
+		this.centerY = centerY;
 	}
 
 	@Override
 	public void moveX(double pixelsPerSecond) {
-		// TODO Auto-generated method stub
-		
+		this.velocityX = pixelsPerSecond;		
 	}
 
 	@Override
 	public void moveY(double pixelsPerSecond) {
-		// TODO Auto-generated method stub
-		
+		this.velocityY = pixelsPerSecond;				
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
-		
+		this.velocityX = 0;
+		this.velocityY = 0;
 	}
 
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.velocityX > 0) {
+			return rightImage;
+		}
+		else {
+			return image;
+		}
 	}
 
 	@Override
 	public boolean getVisible() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -101,13 +105,13 @@ public class IMGSprite implements DisplayableSprite, MovableSprite {
 	@Override
 	public double getCenterX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.getCenterX();
 	}
 
 	@Override
 	public double getCenterY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.getCenterY();
 	}
 
 	@Override
@@ -119,6 +123,11 @@ public class IMGSprite implements DisplayableSprite, MovableSprite {
 	@Override
 	public void update(Universe universe, KeyboardInput keyboard, long actual_delta_time) {
 		// TODO Auto-generated method stub
+		double distanceX = this.velocityX * actual_delta_time * 0.001;
+		double distanceY = this.velocityY * actual_delta_time * 0.001;
+		
+		this.centerX += distanceX;
+		this.centerY += distanceY;
 		
 	}
 	
