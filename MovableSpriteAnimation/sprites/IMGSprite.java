@@ -6,12 +6,15 @@ import javax.imageio.ImageIO;
 
 public class IMGSprite implements DisplayableSprite, MovableSprite {
 
-	private static Image image;	
+	private static Image upImage;	
 	private static Image rightImage;	
+	private static Image leftImage;
+	private static Image downImage;
+	private static Image direction;
 	private double centerX = 0;
 	private double centerY = 0;
-	private double width = 50;
-	private double height = 50;
+	private double width = 100;
+	private double height = 100;
 	private double velocityX = 0;
 	private double velocityY = 0;
 	private boolean dispose = false;	
@@ -19,10 +22,12 @@ public class IMGSprite implements DisplayableSprite, MovableSprite {
 	public IMGSprite() {
 		super();
 
-		if (image == null) {
+		if (upImage == null) {
 			try {
-				image = ImageIO.read(new File("res/IMG/squirrel-icon.png"));
-				rightImage = ImageIO.read(new File("res/IMG/squirrel-icon.png"));
+				upImage = ImageIO.read(new File("res/IMG/pixil-frame-0 (2).png"));
+				rightImage = ImageIO.read(new File("res/IMG/pixil-frame-0 (3).png"));
+				leftImage = ImageIO.read(new File("res/IMG/pixil-frame-0.png"));
+				downImage = ImageIO.read(new File("res/IMG/pixil-frame-0 (1).png"));
 
 			}
 			catch (IOException e) {
@@ -56,14 +61,27 @@ public class IMGSprite implements DisplayableSprite, MovableSprite {
 		this.velocityX = 0;
 		this.velocityY = 0;
 	}
-
+3
 	@Override
 	public Image getImage() {
 		if (this.velocityX > 0) {
-			return rightImage;
+			direction = rightImage;
+			return direction;
+		}
+		if (this.velocityY < 0) {
+			direction = upImage;
+			return direction;
+		}
+		if (this.velocityX < 0) {
+			direction = leftImage;
+			return direction;
+		}
+		if (this.velocityY > 0) {
+			direction = downImage;
+			return direction;
 		}
 		else {
-			return image;
+			return direction;
 		}
 	}
 
